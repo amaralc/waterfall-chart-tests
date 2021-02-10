@@ -1,0 +1,11 @@
+{
+  "name": "waterfall-chart-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/amaralc/waterfall-chart-tests",
+  "author": "amaralc <amaral.calil@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "json-server": "^0.16.3"
+  }
+}
