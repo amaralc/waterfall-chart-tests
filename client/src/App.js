@@ -1,41 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
 import api from './services/api'
-import {useCallback, useEffect} from 'react'
+import {useEffect, useState} from 'react'
+import Plot from 'react-plotly.js';
 
 function App() {
 
-  // const fetchData = useCallback(async () => {
-  //   const response = await api.get('/data');
-  //   console.log(response.data);
-  // },[])
-
-  // useEffect(() => {
-  //   fetchData();
-  // },[fetchData])
+  const [data, setData] = useState();
 
   useEffect(() => {
     api.get('/data').then(response => {
-      console.log(response.data)
+      console.log(response.data);
+      const zData = response.data.map(item => item.fft);
+      const yData = response.data.map(item => item.datetime)
+      const plotlyData = [{
+        z: zData,
+        y: yData,
+        type: 'surface'
+      }];
+      
+      setData(plotlyData);
+
+      console.log(plotlyData);
     })
   },[])
 
+  if(!data){
+    return <p>Carregando...</p>
+  }
+
   return (
+
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="Chart">
+        <Plot className="Chart"
+          data={data}
+          layout={ { title: 'Waterfall'} }
+        />
+      </div>        
     </div>
   );
 }
